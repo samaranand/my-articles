@@ -24,8 +24,11 @@ app.use(cors())
 app.use('/articles', articlesRouter)
 app.use('/blogs', blogsRouter)
 
+app.get('/', (req, res)=>{
+    res.send(`Thank u for coming here. You can use 'https://samaranand-blogs.herokuapp.com/api' this for ur own UI`)
+})
 
-app.get('/', async (req, res)=>{
+app.get('/admin', async (req, res)=>{
     const articles = await Article.find().sort({
         createdAt: 'desc'
     })
