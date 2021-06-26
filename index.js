@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override')
 const Article = require('./models/article')
 const articlesRouter = require('./routes/articles')
+const blogsRouter = require('./routes/blogs')
 
 const app = express()
 const connectionURL = process.env.MONGODB_URL
@@ -21,6 +22,7 @@ app.use(cors())
 
 
 app.use('/articles', articlesRouter)
+app.use('/blogs', blogsRouter)
 
 
 app.get('/', async (req, res)=>{
@@ -38,7 +40,7 @@ app.get('/api', async (req, res)=>{
     const tmp_articles = []
     await articles.forEach(e => {
         tmp_articles.push({
-            createdAt: e.createdAt.toLocaleDateString(),
+            createdAt: e.createdAt,
             title: e.title,
             slug: e.slug,
             description: e.description,
