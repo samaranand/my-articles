@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override')
 const Article = require('./models/article')
@@ -16,6 +17,8 @@ mongoose.connect(connectionURL, {
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: false}))
 app.use(methodOverride('_method'))
+app.use(cors())
+
 
 app.use('/articles', articlesRouter)
 
@@ -28,7 +31,25 @@ app.get('/', async (req, res)=>{
 })
 
 
-
+app.get('/api', async (req, res)=>{
+    const articles = await Article.find().sort({
+        createdAt: 'desc'
+    })
+    const tmp_articles = []
+    await articles.forEach(e => {
+        tmp_articles.push({
+            createdAt: e.createdAt.toLocaleDateString(),
+            title: e.title,
+            slug: e.slug,
+            data: e.sanitizedHtml
+        })
+    })
+    try{
+        res.status(200).send(tmp_articles)
+    } catch(e){
+        res.status(400).send(e)
+    }
+})
 
 
 
