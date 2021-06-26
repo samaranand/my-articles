@@ -41,6 +41,7 @@ app.get('/api', async (req, res)=>{
             createdAt: e.createdAt.toLocaleDateString(),
             title: e.title,
             slug: e.slug,
+            description: e.description,
             data: e.sanitizedHtml
         })
     })
