@@ -1,6 +1,6 @@
 const express = require('express')
 const Article = require('./../models/article')
-
+const binArticle = require('./../models/bin_articles')
 const router = express.Router()
 
 router.get('/new', (req, res)=>{
@@ -36,7 +36,18 @@ router.put('/:id', async (req, res, next)=>{
 
 
 router.delete('/:id', async (req, res)=>{
-    await Article.findByIdAndDelete(req.params.id)
+    const tmp = await Article.findByIdAndDelete(req.params.id)
+    let tmp_article = new binArticle()
+    tmp_article.title = tmp.title;
+    tmp_article.description = tmp.description;
+    tmp_article.markdown = tmp.markdown;
+    tmp_article.createdAt = tmp.createdAt;
+    tmp_article.slug = tmp.slug;
+    try{
+        await tmp_article.save()
+    } catch(e){
+        console.log(e)
+    }
     res.redirect('/')
 })
 

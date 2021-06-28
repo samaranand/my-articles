@@ -8,7 +8,7 @@ const blogsRouter = require('./routes/blogs')
 
 const app = express()
 const connectionURL = process.env.MONGODB_URL
-const port = process.env.PORT
+const port = process.env.PORT || 3000
 mongoose.connect(connectionURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

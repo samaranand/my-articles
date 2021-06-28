@@ -42,4 +42,5 @@ articleSchema.pre('validate', function(next){
     next()
 })
 
+// here Article will be collection name in DB
 module.exports = mongoose.model('Articles', articleSchema);
